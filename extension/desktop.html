@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ug" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UyFox News - Windows ئۈستەلئۈستى پىروگراممىسى & Chrome قىستۇرمىسى</title>
+  <link rel="stylesheet" href="desktop.css">
+</head>
+<body data-theme="dark" data-font="tuz">
+  <!-- Windows 11 Native Fluent Window Wrapper -->
+  <div class="window-shell">
+    
+    <!-- Windows 11 Title Bar -->
+    <header class="win-titlebar">
+      <div class="win-titlebar-left">
+        <div class="app-brand-badge">
+          <img src="assets/logo_wolf.jpg" alt="UyFox Wolf Logo" class="brand-logo" onerror="this.src='assets/logo_emblem.jpg';">
+          <span class="brand-name">UyFox News</span>
+        </div>
+        <span class="win-sep">|</span>
+        <span class="win-edition">Windows 11 ئۈستەلئۈستى نۇسخىسى (Enterprise Edition)</span>
+      </div>
+
+      <div class="win-titlebar-actions">
+        <span class="win-badge-telemetry">🛡️ نۆل ئىز قوغلاش · %100 يەرلىك كاش</span>
+        <div class="win-controls">
+          <button class="win-ctrl-btn" id="winMinimizeBtn" title="كىچىكلىتىش">─</button>
+          <button class="win-ctrl-btn" id="winMaximizeBtn" title="چوڭايتىش">□</button>
+          <button class="win-ctrl-btn win-close-btn" id="winCloseBtn" title="تاقاش">✕</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Windows App Menubar & Navigation Tabs -->
+    <div class="win-menubar">
+      <div class="menubar-items">
+        <button class="menu-tab-btn active" data-tab="news">📰 خەۋەرلەر مەركىزى</button>
+        <button class="menu-tab-btn" data-tab="strategy">🌍 ئىستراتېگىيە ۋە تەھلىل</button>
+        <button class="menu-tab-btn" data-tab="maps">🗺️ Google Maps ئورۇن</button>
+        <button class="menu-tab-btn" data-tab="prd">📜 PRD تەلەپ ھۆججىتى</button>
+        <button class="menu-tab-btn" data-tab="spec">⚙️ SPEC ئارخىتېكتۇرا</button>
+      </div>
+
+      <div class="menubar-tools">
+        <button class="tool-btn" id="desktopRefreshBtn" title="خەۋەرلەرنى يېڭىلاش">
+          <span>↻ يېڭىلاش</span>
+        </button>
+        <button class="tool-btn" id="desktopThemeBtn" title="تېما ئالماشتۇرۇش">
+          <span id="desktopThemeIcon">🌙 كېچە</span>
+        </button>
+        <button class="tool-btn highlight" id="desktopShareAppBtn" title="پىروگراممىنى ھەمبەھىرلەش">
+          <span>📤 ھەمبەھىرلەش</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN WORKSPACE: News Center Tab -->
+    <main class="win-workspace tab-content active" id="newsWorkspace">
+      <!-- Left Column: Channel & Search Navigation -->
+      <aside class="sidebar-channels">
+        <div class="search-box">
+          <span class="search-glyph">🔍</span>
+          <input type="text" id="desktopSearchInput" class="search-field" placeholder="ماقالىلەردىن ئىزدەش...">
+        </div>
+
+        <div class="channels-section">
+          <div class="section-heading">نوپوزلۇق خەۋەر مەنبەلىرى</div>
+          <div class="channel-list" id="channelList">
+            <button class="channel-btn active" data-source="all">
+              <span class="channel-title">🌐 بارلىق يېڭى خەۋەرلەر</span>
+              <span class="channel-count" id="countAll">5</span>
+            </button>
+            <button class="channel-btn" data-source="Foreign Policy">
+              <span class="channel-title">🏛️ فورېن پولىسى (Foreign Policy)</span>
+              <span class="channel-count">1</span>
+            </button>
+            <button class="channel-btn" data-source="Foreign Affairs">
+              <span class="channel-title">🌐 فورېن ئاففېرس (Foreign Affairs)</span>
+              <span class="channel-count">2</span>
+            </button>
+            <button class="channel-btn" data-source="The Diplomat">
+              <span class="channel-title">🧭 دىپلومات (The Diplomat)</span>
+              <span class="channel-count">1</span>
+            </button>
+            <button class="channel-btn" data-source="Reuters">
+              <span class="channel-title">⚡ رويتېرس (Reuters)</span>
+              <span class="channel-count">1</span>
+            </button>
+            <button class="channel-btn bookmarks-channel" data-source="bookmarks">
+              <span class="channel-title">★ ساقلانغان ماقالىلەر</span>
+              <span class="channel-count" id="countBookmarks">1</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="system-integrity-box">
+          <div class="integrity-title">🔒 بىخەتەرلىك ھالىتى</div>
+          <p class="integrity-desc">ھېچقانداق تاشقى ئىز قوغلاش ياكى خىتاي شىركەتلىرىنىڭ كودى مەۋجۇت ئەمەس. بارلىق سانلىق مەلۇمات پۈتۈنلەي كومپيۇتېرىڭىزدا ساقلىنىدۇ.</p>
+        </div>
+      </aside>
+
+      <!-- Middle Column: Articles Feed List -->
+      <section class="feed-column">
+        <div class="feed-header">
+          <div class="feed-status-title">
+            <span id="activeChannelLabel">بارلىق يېڭى خەۋەرلەر</span>
+            <span class="feed-badge" id="feedBadge">ئەڭ يېڭى</span>
+          </div>
+          <div class="feed-meta-info" id="feedMetaCount">5 تەھلىل ماقالىسى</div>
+        </div>
+
+        <div class="cards-stream" id="desktopNewsStream">
+          <!-- Populated dynamically via desktop.js -->
+        </div>
+      </section>
+
+      <!-- Right Column: Deep Reader Pane -->
+      <section class="reader-pane" id="desktopReaderPane">
+        <div class="reader-header">
+          <div class="reader-source-info">
+            <span class="reader-tag" id="readerSourceTag">Foreign Affairs</span>
+            <span class="reader-date" id="readerDateLabel">بۈگۈن · 08:30</span>
+          </div>
+          <div class="reader-quick-actions">
+            <button class="icon-action-btn" id="readerShareBtn" title="ماقالىنى ھەمبەھىرلەش">📤 ھەمبەھىر</button>
+            <button class="icon-action-btn" id="readerBookmarkBtn" title="خەتكۈچكە ساقلاش">☆ ساقلاش</button>
+            <button class="icon-action-btn" id="readerCopyBtn" title="تېكىستنى كۆچۈرۈش">📋 كۆچۈرۈش</button>
+          </div>
+        </div>
+
+        <!-- Typography Customizer Toolbar -->
+        <div class="typography-toolbar">
+          <div class="typo-control">
+            <span class="typo-label">خەت چوڭلۇقى: <b id="readerFontSizeDisplay">21px</b></span>
+            <input type="range" id="desktopFontSizeSlider" min="15" max="36" step="1" value="21" class="slider-input">
+          </div>
+          <div class="typo-control">
+            <span class="typo-label">سىزىق ئارىلىقى: <b id="readerLineHeightDisplay">2.2x</b></span>
+            <input type="range" id="desktopLineHeightSlider" min="1.6" max="3.0" step="0.1" value="2.2" class="slider-input">
+          </div>
+          <div class="typo-control fonts-group">
+            <span class="typo-label">خەت نۇسخىسى:</span>
+            <div class="font-buttons-pill">
+              <button class="font-pill active" data-font="tuz">UKIJ Tuz</button>
+              <button class="font-pill" data-font="alkatip">ALKATIP</button>
+              <button class="font-pill" data-font="sans">Sans</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reader Scrollable Body -->
+        <div class="reader-scroll-body" id="desktopReaderScrollBody">
+          <h1 class="reader-headline" id="readerArticleHeadline">ماقالە ماۋزۇسى يۈكلىنىۋاتىدۇ...</h1>
+          
+          <div class="reader-highlights-card" id="readerHighlightsWrapper">
+            <div class="highlights-card-header">⚡ ئىستراتېگىيەلىك نۇقتىلار</div>
+            <ul class="highlights-list" id="readerHighlightsList"></ul>
+          </div>
+
+          <div class="reader-paragraphs" id="readerArticleParagraphs">
+            <!-- Injected by desktop.js -->
+          </div>
+
+          <div class="reader-footer-actions">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="original-source-link" id="readerSourceLink">
+              ئەسلى ئىنگلىزچە ماقالىنى كۆرۈش (Original Source) ↗
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- TAB CONTENT: Strategy & Geopolitics -->
+    <div class="tab-content win-strategy-pane" id="strategyWorkspace" style="display: none;">
+      <div class="strategy-hero">
+        <div class="strategy-banner-content">
+          <h2 class="strategy-title">🌍 شەرقىي تۈركىستان ۋە دۇنيا گېئوپولىتىكىلىق تەھلىلى</h2>
+          <p class="strategy-subtitle">فورېن پولىسى، فورېن ئاففېرس ۋە دىپلومات ئانالىزلىرى ئاساسىدا پۈتۈن دۇنيا ئىستراتېگىيە ۋە تەمىنات زەنجىرى تەڭپۇڭلۇقى</p>
+        </div>
+      </div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="card-icon">⚡</div>
+          <h3>ئوتتۇرا كارىدور ۋە يىپەك يولى</h3>
+          <p>ئوتتۇرا ئاسىيا جۇمھۇرىيەتلىرى بىلەن تۈرك دۆلەتلىرى تەشكىلاتى تەمىنات زەنجىرىنى قايتا قۇرۇپ، رايون خاراكتېرلىك مۇستەقىللىقنى قوغداشتا كۆرۈنەرلىك ئىلگىرىلەش ھاسىل قىلدى.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="card-icon">🛡️</div>
+          <h3>مىكرو چىپ ۋە دۆلەت مۇداپىئەسى</h3>
+          <p>ئەڭ يېڭى 2 نانومېتىرلىق يېرىم ئۆتكۈزگۈچ چىپلار ئۈستىدىكى رىقابەت خىتاينىڭ ھەربىي سۈنئىي ئىدراك ئارزۇسىنى تىزگىنلەشتىكى ئەڭ ھايات-ماماتلىق توسۇققا ئايلاندى.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="card-icon">🌐</div>
+          <h3>ئىنسان ھەقلىرى ۋە خەلقئارا ھېسابات</h3>
+          <p>شەرقىي تۈركىستاندىكى مەجبۇرىي ئەمگەك ۋە لاگېر سىياسەتلىرىگە قارشى خەلقئارالىق سودا ئېمبارگولىرى ۋە تەمىنات تەكشۈرۈشلىرى تېخىمۇ قاتتىق تۈسكە كىرمەكتە.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: Google Maps Grounding Workspace -->
+    <div class="tab-content win-strategy-pane" id="mapsWorkspace" style="display: none;">
+      <div class="strategy-hero">
+        <div class="strategy-banner-content">
+          <h2 class="strategy-title">🗺️ Google Maps ھەقىقىي جۇغراپىيىلىك ئورۇن تەھلىلى</h2>
+          <p class="strategy-subtitle">يىپەك يولى، شەرقىي تۈركىستان ۋە دۇنيادىكى ئىستراتېگىيەلىك ئورۇنلارنى خەرىتىدە دەلىللەپ تەھلىل قىلىش</p>
+        </div>
+      </div>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="card-icon">📍</div>
+          <h3>قەشقەر قەدىمىي شەھىرى ۋە يىپەك يولى دەرۋازىسى</h3>
+          <p>ئورنى: شەرقىي تۈركىستان (39.47°N, 75.99°E). قەدىمىي كارۋان يولى، پامىر ۋە تەڭرىتاغ ئارىلىقىدىكى ئەڭ مۇھىم قەدىمىي سودا تۈگۈنى.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Kashgar+Old+City+East+Turkistan" target="_blank" rel="noopener noreferrer" class="original-source-link" style="margin-top: 10px;">Google Maps تە ئېچىش ↗</a>
+        </div>
+        <div class="strategy-card">
+          <div class="card-icon">🚢</div>
+          <h3>ئوتتۇرا كارىدور: ئەزەربەيجان باكۇ ۋە تۈركىيە بوغۇزى</h3>
+          <p>ئورنى: كاسپىي ۋە قارا دېڭىز. ئوتتۇرا ئاسىيا تەبىئىي گاز ۋە تەمىنات زەنجىرىنى ياۋروپاغا خىتاينى چەتكە قاققان ھالدا تۇتاشتۇرىدۇ.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Baku+Port+Caspian+Sea" target="_blank" rel="noopener noreferrer" class="original-source-link" style="margin-top: 10px;">Google Maps تە ئېچىش ↗</a>
+        </div>
+        <div class="strategy-card">
+          <div class="card-icon">⚡</div>
+          <h3>تەيۋەن تەيبېي ۋە شىنجۇ پەن-تېخنىكا باغچىسى</h3>
+          <p>ئورنى: تەيۋەن بوغۇزى (24.78°N, 121.00°E). پۈتۈن دۇنيانىڭ ئەڭ يۇقىرى 2nm يېرىم ئۆتكۈزگۈچ چىپ ئىشلەپچىقىرىش يادروسى.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hsinchu+Science+Park+Taiwan" target="_blank" rel="noopener noreferrer" class="original-source-link" style="margin-top: 10px;">Google Maps تە ئېچىش ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: PRD Document Viewer -->
+    <div class="tab-content win-doc-pane" id="prdWorkspace" style="display: none;">
+      <div class="doc-container">
+        <div class="doc-header-bar">
+          <h2>📄 تۈر مەھسۇلات تەلەپ ھۆججىتى (PRD) - UyFox News Enterprise</h2>
+          <button class="doc-copy-btn" id="copyPrdBtn">كۆچۈرۈش</button>
+        </div>
+        <pre class="doc-markdown-body" id="prdBodyText">يۈكلىنىۋاتىدۇ...</pre>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: SPEC Document Viewer -->
+    <div class="tab-content win-doc-pane" id="specWorkspace" style="display: none;">
+      <div class="doc-container">
+        <div class="doc-header-bar">
+          <h2>⚙️ تېخنىكىلىق ئارخىتېكتۇرا ھۆججىتى (SPEC) - UyFox News Architecture</h2>
+          <button class="doc-copy-btn" id="copySpecBtn">كۆچۈرۈش</button>
+        </div>
+        <pre class="doc-markdown-body" id="specBodyText">يۈكلىنىۋاتىدۇ...</pre>
+      </div>
+    </div>
+
+    <!-- Status Toast Notifications -->
+    <div class="win-toast" id="winToast" style="display: none;"></div>
+
+    <!-- Windows App Statusbar -->
+    <footer class="win-statusbar">
+      <div class="status-left">
+        <span class="status-indicator-dot"></span>
+        <span>ھالەت: تەييار · توركۆرگۈ ۋە ئۈستەلئۈستى ماس قەدەمدە</span>
+      </div>
+      <div class="status-right">
+        <span>خەۋەر سانى: <b id="statusArticleCount">5</b> دانە</span>
+        <span class="status-sep">|</span>
+        <span>نۇسخا: UyFox v1.0.0 Enterprise</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="desktop.js"></script>
+</body>
+</html>

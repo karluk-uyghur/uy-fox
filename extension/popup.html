@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ug" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UyFox news</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body data-theme="dark" data-font-size="normal">
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-wrapper">
+          <div class="brand-icon" title="UyFox news - شەرقىي تۈركىستان & دۇنيا">
+            <img src="assets/logo_wolf.jpg" alt="UyFox News Logo" class="brand-logo-img" onerror="this.src='assets/logo_emblem.jpg';">
+            <span class="brand-fallback-icon" style="display:none;">🦊</span>
+          </div>
+          <div class="brand-info">
+            <span class="brand-title">UyFox news</span>
+            <span class="brand-subtitle">شەرقىي تۈركىستان & دۇنيا</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="fontSizeBtn" class="action-btn" title="خەت چوڭلۇقى">
+            <span>A±</span>
+          </button>
+          <button id="themeToggleBtn" class="action-btn" title="نۇر ھالىتى">
+            <span id="themeIcon">🌙</span>
+          </button>
+          <button id="langToggleBtn" class="action-btn active" title="تىل ئالماشتۇرۇش">
+            <span id="langLabel">ئۇيغۇرچە</span>
+          </button>
+          <button id="refreshBtn" class="action-btn" title="يېڭىلاش">
+            <span>↻</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Instant Search -->
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="خەۋەرلەر ئىچىدىن ئىزدەش..." autocomplete="off">
+      </div>
+
+      <!-- Source Channels Tabs -->
+      <div class="tabs-scroll" id="sourceTabs">
+        <button class="tab-btn active" data-source="all">بارلىق مەنبەلەر</button>
+        <button class="tab-btn" data-source="Foreign Policy">Foreign Policy</button>
+        <button class="tab-btn" data-source="Foreign Affairs">Foreign Affairs</button>
+        <button class="tab-btn" data-source="The Diplomat">The Diplomat</button>
+        <button class="tab-btn" data-source="Reuters">Reuters</button>
+        <button class="tab-btn" data-source="bookmarks">★ ساقلانغانلار</button>
+      </div>
+
+      <!-- Categories Filter Tabs (گېئوپولىتىكا, ئىقتىساد, كىشىلىك ھوقۇق, تېخنىكا, دىپلوماتىيە) -->
+      <div class="tabs-scroll category-bar" id="categoryTabs" style="margin-top: 5px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <button class="cat-pill active" data-category="all">ھەممە تۈرلەر</button>
+        <button class="cat-pill" data-category="geopolitics">گېئوپولىتىكا</button>
+        <button class="cat-pill" data-category="economy">ئىقتىساد</button>
+        <button class="cat-pill" data-category="human_rights">كىشىلىك ھوقۇق</button>
+        <button class="cat-pill" data-category="technology">تېخنىكا & AI</button>
+        <button class="cat-pill" data-category="diplomacy">دىپلوماتىيە</button>
+      </div>
+    </header>
+
+    <!-- Main Content List -->
+    <main class="content-area" id="contentArea">
+      <div class="news-list" id="newsList">
+        <!-- Rendered dynamically by popup.js -->
+      </div>
+      
+      <div class="state-container" id="stateContainer" style="display: none;">
+        <div class="loading-spinner" id="spinner"></div>
+        <p id="stateMessage">خەۋەرلەر يۈكلىنىۋاتىدۇ...</p>
+      </div>
+    </main>
+
+    <!-- Deep Reader Modal -->
+    <div class="reader-modal" id="readerModal">
+      <div class="modal-header">
+        <div class="modal-title-bar">
+          <button id="closeModalBtn" class="back-btn">
+            <span>← كەينىگە</span>
+          </button>
+          <span id="modalSourceBadge" class="source-name">Foreign Policy</span>
+        </div>
+        <div class="header-actions">
+          <button id="modalShareBtn" class="action-btn" title="ھەمبەھىرلەش (Web Share API)">
+            <span id="modalShareIcon">📤 ھەمبەھىرلەش</span>
+          </button>
+          <button id="readerSettingsToggleBtn" class="action-btn" title="ئوقۇش خەت ۋە قۇر تەڭشىكى">
+            <span>Aa</span>
+          </button>
+          <button id="modalBookmarkBtn" class="icon-btn" title="ساقلاش">
+            <span id="modalBookmarkIcon">☆</span>
+          </button>
+          <button id="modalCopyBtn" class="action-btn" title="تېكىستنى كۆچۈرۈش">
+            <span>كۆچۈرۈش</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Typography Sliders Bar for Reader Mode -->
+      <div class="reader-typography-bar" id="readerTypographyBar">
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <span class="slider-label">خەت چوڭلۇقى</span>
+            <span class="slider-value" id="fontSizeVal">14px</span>
+          </div>
+          <input type="range" id="fontSizeSlider" class="range-slider" min="12" max="22" step="1" value="14">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <span class="slider-label">سىزىق ئارىلىقى</span>
+            <span class="slider-value" id="lineHeightVal">1.8x</span>
+          </div>
+          <input type="range" id="lineHeightSlider" class="range-slider" min="1.4" max="2.6" step="0.1" value="1.8">
+        </div>
+
+        <!-- Font Family Switcher -->
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <span class="slider-label">خەت نۇسخىسى (Font Family)</span>
+          </div>
+          <div class="font-switcher-group" id="fontSwitcherGroup">
+            <button class="font-btn active" data-font="tuz" type="button">UKIJ Tuz</button>
+            <button class="font-btn" data-font="alkatip" type="button">ALKATIP Basma</button>
+            <button class="font-btn" data-font="sans" type="button">سۈكۈتتىكى (Sans)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body" id="modalBody">
+        <div class="modal-meta-row">
+          <span id="modalPubDate">تۈنۈگۈن</span>
+          <span id="modalReadTime">4 مىنۇت تەھلىل</span>
+        </div>
+        
+        <h2 id="modalHeadline" class="modal-headline">خەۋەر ماۋزۇسى</h2>
+
+        <div class="highlights-box" id="modalHighlightsBox">
+          <div class="highlights-title">
+            <span>⚡ يادرولۇق ئىستراتېگىيەلىك نۇقتىلار:</span>
+          </div>
+          <div id="modalHighlightsList"></div>
+        </div>
+
+        <div id="modalContentParagraphs"></div>
+
+        <div class="modal-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" id="modalSourceLink" class="btn-primary">
+            <span>ئەسلى مەنبەدە ئوقۇش ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Footer (Zero Telemetry Guarantee) -->
+    <footer class="app-footer">
+      <div class="privacy-badge">
+        <span>🛡️ نۆل ئىز قوغلاش · %100 يەرلىك كاش</span>
+      </div>
+      <span id="articleCountLabel">0 خەۋەر</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

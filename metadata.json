@@ -1,0 +1,6 @@
+{
+  "name": "خەۋەرلەرنى يىغىپ كۆرسىتىش قۇرالى - Chrome Extension Suite",
+  "description": "خەلقئارالىق نوپوزلۇق خەۋەر مەنبەلىرىنى ئۇيغۇرچىغا تەرجىمە قىلىپ كۆرسىتىدىغان زامانىۋى Chrome Manifest V3 قىستۇرمىسى، ئېنترىپرايس PRD ۋە SPEC پۈتۈن ھۆججەتلىرى بىلەن.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

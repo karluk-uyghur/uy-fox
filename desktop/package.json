@@ -1,0 +1,27 @@
+{
+  "name": "uyfox-news-windows",
+  "version": "1.0.0",
+  "description": "UyFox News - نوپوزلۇق ئىستراتېگىيە ۋە شەرقىي تۈركىستان خەۋەرلىرى Windows ئۈستەلئۈستى پىروگراممىسى",
+  "main": "main.js",
+  "author": "UyFox News Engineering Team",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "electron .",
+    "pack:win": "electron-builder --win nsis portable --x64"
+  },
+  "build": {
+    "appId": "org.uyfox.news",
+    "productName": "UyFox News",
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "../public/assets/logo_wolf.jpg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "UyFox News"
+    }
+  }
+}
